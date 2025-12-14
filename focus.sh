@@ -1,16 +1,19 @@
 #!/bin/bash
-# https://heyfocus.com/blog/how-to-turn-on-mac-focus-mode-from-the-terminal/
-function focusOn(){
+function focus-assistant(){
   # 'AC' or 'Battery'
   POWER_SOURCE=`pmset -g batt | cut -d "'" -f 2 | cut -d " " -f 1`
-  if [[ "$POWER_SOURCE" != 'AC' ]] return;
+  if [[ "$POWER_SOURCE" != 'AC' ]]; then
+    return
+  fi
 
   # 'Yes' or 'No'
   CLAMSHELL_STATUS=`ioreg -r -k AppleClamshellState | grep '"AppleClamshellState"' | cut -f2 -d "=" | tr -d " "`
 
   # 'Do Not Disturb' or '' (becomes 'Focus Off')
   FOCUS_STATUS=`shortcuts run "Get Focus"`
-  if [[ "$FOCUS_STATUS" == '' ]] FOCUS_STATUS="Focus Off"
+  if [[ "$FOCUS_STATUS" == '' ]]; then
+    FOCUS_STATUS="Focus Off"
+  fi
 
   # echo "$POWER_STRING"
   # echo "$CLAMSHELL_STATUS"
@@ -25,5 +28,6 @@ function focusOn(){
   # else
   #   echo "Focus Already Correct!"
   fi
-
 }
+
+focus-assistant
